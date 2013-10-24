@@ -45,8 +45,8 @@ rm rexster-server-2.4.0/lib/lucene-core-3.5.0.jar
 
 # customize hostames
 zklist=$(maprcli node listzookeepers)
-sed -i.bak s|REPLACEME|$zklist|g titan-mapr-patch/bin/make-hbase-graph.groovy
-sed -i.bak s|REPLACEME|$zklist|g titan-mapr-patch/config/rexster.xml
+sed -i.bak "s|REPLACEME|$zklist|g" titan-mapr-patch/bin/make-hbase-graph.groovy
+sed -i.bak "s|REPLACEME|$zklist|g" titan-mapr-patch/config/rexster.xml
 
 cat <<EOF
 The titan-hbase-0.4.0 distribution has been downloaded to
