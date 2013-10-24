@@ -63,14 +63,21 @@ hbaseJarNamesOnly = [ getNameOnly(jarname) for jarname in hbaseJarNames ]
 
 # loop over Titan jars
 for i, name in enumerate(totalJarNamesOnly):
+    print 'working on Titan jar', name
     # if in the hadoop Jars, copy over the one from the hadoop jar
     if name in hadoopJarNamesOnly:
+        print 'found this jar in hadoop jars'
         replaceIndex = hadoopJarNamesOnly.index(name)
+        print 'copying jar', hadoopJars[replaceIndex]
         subprocess.check_call(["cp", hadoopJars[replaceIndex], copypath])
+        print 'removing jar', totalJars[i]
         subprocess.call(["rm", totalJars[i]])
     if name in hbaseJarNamesOnly:
+        print 'found this jar in hbase jars'
         replaceIndex = hbaseJarNamesOnly.index(name)
+        print 'copying jar', hbaseJars[replaceIndex]
         subprocess.check_call(["cp", hbaseJars[replaceIndex], copypath])
+        print 'removing jar', totalJars[i]
         subprocess.call(["rm", totalJars[i]])
 # add all other jars from hadoop and hbase classpaths?
 #for i, name in enumerate(hadoopJarNamesOnly):
