@@ -40,7 +40,7 @@ if len(args) != 1:
 tpath = args[0]
 abspath = path.abspath(tpath)
 joinpath = path.abspath(path.join(abspath, '../lib/*.jar'))
-extpath = path.abspath(path.join(abspath, '../ext/*.jar')) 
+extpath = path.abspath(path.join(abspath, '../ext/titan/*.jar')) 
 titanJarsAndDires = glob.glob(joinpath) + glob.glob(extpath)
 hadoopJarsAndDires = subprocess.Popen(["hadoop", "classpath"], stdout=subprocess.PIPE).communicate()[0].strip().split(':')
 #hadoopJars = subprocess.check_output(['hadoop', 'classpath']).strip().split(':')
