@@ -52,7 +52,7 @@ mkdir rexster-server-2.4.0/ext/titan
 cp titan-hbase-0.4.0/lib/* rexster-server-2.4.0/ext/titan/
 
 # avoid conflict with elasticsearch
-rm rexster-server-2.4.0/lib/lucene-core-3.5.0.jar
+rm rexster-server-2.4.0/lib/lucene-core-*.jar
 
 # customize hostames
 zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace

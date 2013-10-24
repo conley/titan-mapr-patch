@@ -81,9 +81,9 @@ for i, name in enumerate(totalJarNamesOnly):
         print 'removing jar', totalJars[i]
         subprocess.call(["rm", totalJars[i]])
 # add all other jars from hadoop and hbase classpaths?
-#for i, name in enumerate(hadoopJarNamesOnly):
-#    if name not in totalJarNamesOnly:
-#        subprocess.check_call(["cp", hadoopJars[i], copypath])
-#for i, name in enumerate(hbaseJarNamesOnly):
-#    if name not in totalJarNamesOnly:
-#        subprocess.check_call(["cp", hbaseJars[i], copypath])
+for i, name in enumerate(hadoopJarNamesOnly):
+    if name not in totalJarNamesOnly:
+        subprocess.check_call(["cp", hadoopJars[i], copypath])
+for i, name in enumerate(hbaseJarNamesOnly):
+    if name not in totalJarNamesOnly:
+        subprocess.check_call(["cp", hbaseJars[i], copypath])
