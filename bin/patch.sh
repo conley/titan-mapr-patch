@@ -19,12 +19,7 @@ EOF
     exit 1
 }
 
-trim() {
-    local var=$@
-    var="${var#"${var%%[![:space:]]*}"}"   # remove leading whitespace characters
-    var="${var%"${var##*[![:space:]]}"}"   # remove trailing whitespace characters
-    echo -n "$var"
-}
+TITANVERSION=0.3.2
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $DIR
@@ -37,25 +32,27 @@ fi
 unzip rexster-server-2.4.0.zip
 
 # download titan-hbase
-if [ ! -f titan-hbase-0.4.0.zip ]; then
-	wget http://s3.thinkaurelius.com/downloads/titan/titan-hbase-0.4.0.zip
+if [ ! -f titan-hbase-$TITANVERSION.zip ]; then
+	wget http://s3.thinkaurelius.com/downloads/titan/titan-hbase-$TITANVERSION.zip
 fi
-unzip titan-hbase-0.4.0.zip
+unzip titan-hbase-$TITANVERSION.zip
 
 # copy over scripts
-cp titan-mapr-patch/bin/gremlin.sh titan-hbase-0.4.0/bin/
-cp titan-mapr-patch/bin/make-classpath.py titan-hbase-0.4.0/bin/
+cp titan-mapr-patch/bin/gremlin.sh titan-hbase-$TITANVERSION/bin/
+cp titan-mapr-patch/bin/make-classpath.py titan-hbase-$TITANVERSION/bin/
 cp titan-mapr-patch/bin/rexster.sh rexster-server-2.4.0/bin/
 cp titan-mapr-patch/bin/make-classpath.py rexster-server-2.4.0/bin/
 
 
-#python titan-mapr-patch/bin/fix-jars.py titan-hbase-0.4.0/lib
+#python titan-mapr-patch/bin/fix-jars.py titan-hbase-$TITANVERSION/lib
 
 mkdir rexster-server-2.4.0/ext/titan
-cp titan-hbase-0.4.0/lib/* rexster-server-2.4.0/ext/titan/
+cp titan-hbase-$TITANVERSION/lib/* rexster-server-2.4.0/ext/titan/
 
 # avoid conflict with elasticsearch
 rm rexster-server-2.4.0/lib/lucene-core-*.jar
+
+
 
 # customize hostames
 zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace
@@ -63,8 +60,8 @@ sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/bin/make-hbase-graph.groovy
 sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/config/rexster.xml
 
 cat <<EOF
-The titan-hbase-0.4.0 distribution has been downloaded to
-$basedir/titan-hbase-0.4.0
+The titan-hbase-$TITANVERSION distribution has been downloaded to
+$basedir/titan-hbase-$TITANVERSION
 and has been "patched," in the sense that the classpath has been
 fixed in the launch scripts.
 
