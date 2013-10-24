@@ -30,11 +30,17 @@ basedir=$(pwd)
 if [ ! -f rexster-server-$REXSTERVERSION.zip ]; then
 	wget http://tinkerpop.com/downloads/rexster/rexster-server-$REXSTERVERSION.zip
 fi
+if [ -d rexster-server-$REXSTERVERSION ]; then
+	rm -r rexster-server-$REXSTERVERSION
+fi
 unzip rexster-server-$REXSTERVERSION.zip
 
 # download titan-hbase
 if [ ! -f titan-hbase-$TITANVERSION.zip ]; then
 	wget http://s3.thinkaurelius.com/downloads/titan/titan-hbase-$TITANVERSION.zip
+fi
+if [ -d titan-hbase-$TITANVERSION ]; then
+	rm -r titan-hbase-$TITANVERSION
 fi
 unzip titan-hbase-$TITANVERSION.zip
 
