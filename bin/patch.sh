@@ -27,11 +27,6 @@ cd $DIR
 cd ../../
 basedir=$(pwd)
 
-# customize hostames
-zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace
-sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/bin/make-hbase-graph.groovy
-sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/config/rexster-$REXSTERVERSION.xml
-
 if [ ! -f rexster-server-$REXSTERVERSION.zip ]; then
 	wget http://tinkerpop.com/downloads/rexster/rexster-server-$REXSTERVERSION.zip
 fi
@@ -69,6 +64,13 @@ else
 fi
 cp titan-mapr-patch/config/rexster-$REXSTERVERSION.xml rexster-server-$REXSTERVERSION/${REXSTERCONFIGDIR}rexster.xml
 
+# customize hostames
+zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace
+cp titan-mapr-patch/bin/make-hbase-graph.groovy titan-hbase-$TITANVERSION/bin/
+sed -i.bak "s|REPLACEME|$zklist|" titan-hbase-$TITANVERSION/bin/make-hbase-graph.groovy
+sed -i.bak "s|REPLACEME|$zklist|" rexster-server-$REXSTERVERSION/${REXSTERCONFIGDIR}rexster.xml
+
+
 #python titan-mapr-patch/bin/fix-jars.py titan-hbase-$TITANVERSION/lib
 
 mkdir rexster-server-$REXSTERVERSION/ext/titan
@@ -87,8 +89,9 @@ and has been "patched," in the sense that the classpath has been
 fixed in the launch scripts.
 
 You have to now run gremlin.sh and create an HBase-backed graph. See
-$DIR/make-hbase-graph.groovy for the example commands to run in the
-gremlin shell. (TODO: run this script automatically?)
+$DIR/make-hbase-graph.groovy 
+for the example commands to run in the gremlin shell. 
+(TODO: run this script automatically?)
 
 Once the graph is created, you can configure Rexster to run with it.
 The Rexster server distribution has been downloaded to
@@ -99,7 +102,7 @@ in the sense that the classpath has been fixed in the rexster.sh script.
 The Rexster console distribution has also been downloaded to
 $basedir/rexster-console-$REXSTERVERSION
 
-To start rexster, go to the rexster directory and run:
+To start rexster, go to the rexster server directory and run:
 bin/rexster.sh -s -c ${REXSTERCONFIGDIR}rexster.xml &
 Then go to the rexster console directory and run:
 bin/rexster-console.sh
