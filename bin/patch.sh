@@ -68,11 +68,15 @@ and has been "patched," in the sense that the classpath has been
 fixed in the launch scripts.
 
 You have to now run gremlin.sh and create an HBase-backed graph. See
-$DIR/make-hbase-graph.groovy for an example script.
+$DIR/make-hbase-graph.groovy for the example commands to run in the
+gremlin shell. (TODO: run this script automatically?)
 
 Once the graph is created, you can configure Rexster to run with it.
 Rexster has been patched too, by adding a titan subfolder to the ext
 folder in the Rexster dist and adding all the Titan jars to that, and
 in the sense that the classpath has been fixed in the rexster.sh script.
+
+To start rexster, go to the rexster directory and run:
+bin/rexster.sh -s -c config/rexster.xml
 
 EOF
