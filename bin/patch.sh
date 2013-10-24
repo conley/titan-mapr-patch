@@ -30,7 +30,7 @@ basedir=$(pwd)
 # customize hostames
 zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace
 sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/bin/make-hbase-graph.groovy
-sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/config/rexster.xml
+sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/config/rexster-$REXSTERVERSION.xml
 
 if [ ! -f rexster-server-$REXSTERVERSION.zip ]; then
 	wget http://tinkerpop.com/downloads/rexster/rexster-server-$REXSTERVERSION.zip
