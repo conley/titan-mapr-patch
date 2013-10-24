@@ -27,6 +27,11 @@ cd $DIR
 cd ../../
 basedir=$(pwd)
 
+# customize hostames
+zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace
+sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/bin/make-hbase-graph.groovy
+sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/config/rexster.xml
+
 if [ ! -f rexster-server-$REXSTERVERSION.zip ]; then
 	wget http://tinkerpop.com/downloads/rexster/rexster-server-$REXSTERVERSION.zip
 fi
@@ -62,7 +67,7 @@ if [ "$REXSTERVERSION" = "2.4.0" ]; then
 else
 	REXSTERCONFIGDIR=
 fi
-cp titan-mapr-patch/config/rexster.xml rexster-server-$REXSTERVERSION/$REXSTERCONFIGDIR
+cp titan-mapr-patch/config/rexster-$REXSTERVERSION.xml rexster-server-$REXSTERVERSION/${REXSTERCONFIGDIR}rexster.xml
 
 #python titan-mapr-patch/bin/fix-jars.py titan-hbase-$TITANVERSION/lib
 
@@ -74,14 +79,6 @@ cp titan-hbase-$TITANVERSION/lib/* rexster-server-$REXSTERVERSION/ext/titan/
 
 # avoid conflict with elasticsearch
 rm rexster-server-$REXSTERVERSION/lib/lucene-core-*.jar
-
-
-
-
-# customize hostames
-zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace
-sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/bin/make-hbase-graph.groovy
-sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/config/rexster.xml
 
 cat <<EOF
 The titan-hbase-$TITANVERSION distribution has been downloaded to
