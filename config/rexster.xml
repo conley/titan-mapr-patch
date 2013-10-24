@@ -96,7 +96,6 @@
               <storage.backend>hbase</storage.backend>
               <storage.hostname>REPLACEME</storage.hostname>
 			  <storage.tablename>titan</storage.tablename>
-			  <storage.short‑cf‑names>True</storage.short-cf-names>
         </properties>
         <extensions>
           <allows>
