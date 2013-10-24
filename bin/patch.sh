@@ -51,9 +51,9 @@ cp titan-hbase-0.4.0/lib/* rexster-server-2.4.0/ext/titan/
 rm rexster-server-2.4.0/lib/lucene-core-3.5.0.jar
 
 # customize hostames
-zklist=$(trim $(maprcli node listzookeepers))
-sed -i.bak "s|REPLACEME|$zklist|g" titan-mapr-patch/bin/make-hbase-graph.groovy
-sed -i.bak "s|REPLACEME|$zklist|g" titan-mapr-patch/config/rexster.xml
+zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace
+sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/bin/make-hbase-graph.groovy
+sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/config/rexster.xml
 
 cat <<EOF
 The titan-hbase-0.4.0 distribution has been downloaded to
