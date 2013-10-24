@@ -21,7 +21,7 @@ EOF
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $DIR
-cd ..
+cd ../../
 basedir=$(pwd)
 
 wget http://tinkerpop.com/downloads/rexster/rexster-server-2.4.0.zip
@@ -35,7 +35,7 @@ unzip titan-hbase-0.4.0.zip
 #cp titan-mapr-patch/bin/gremlin.sh titan-hbase-0.4.0/bin/
 #cp titan-mapr-patch/bin/titan.sh titan-hbase-0.3.2/bin/
 #cp titan-mapr-patch/bin/make-classpath.py titan-hbase-0.4.0/bin/
-python bin/fix-jars.py titan-hbase-0.4.0/lib
+python titan-mapr-patch/bin/fix-jars.py titan-hbase-0.4.0/lib
 
 mkdir rexster-server-2.4.0/ext/titan
 cp titan-hbase-0.4.0/lib/* rexster-server-2.4.0/ext/titan/
