@@ -19,6 +19,13 @@ EOF
     exit 1
 }
 
+trim() {
+    local var=$@
+    var="${var#"${var%%[![:space:]]*}"}"   # remove leading whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   # remove trailing whitespace characters
+    echo -n "$var"
+}
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $DIR
 cd ../../
@@ -44,7 +51,7 @@ cp titan-hbase-0.4.0/lib/* rexster-server-2.4.0/ext/titan/
 rm rexster-server-2.4.0/lib/lucene-core-3.5.0.jar
 
 # customize hostames
-zklist=$(maprcli node listzookeepers)
+zklist=$(trim $(maprcli node listzookeepers))
 sed -i.bak "s|REPLACEME|$zklist|g" titan-mapr-patch/bin/make-hbase-graph.groovy
 sed -i.bak "s|REPLACEME|$zklist|g" titan-mapr-patch/config/rexster.xml
 
