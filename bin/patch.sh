@@ -51,7 +51,12 @@ cp titan-mapr-patch/bin/rexster.sh rexster-server-$REXSTERVERSION/bin/
 cp titan-mapr-patch/bin/make-classpath.py rexster-server-$REXSTERVERSION/bin/
 
 # copy config
-cp titan-mapr-patch/config/rexster.xml rexster-server-$REXSTERVERSION/config/
+if [ "$REXSTERVERSION" = "2.4.0" ]; then
+	REXSTERCONFIGDIR=config/
+else
+	REXSTERCONFIGDIR=
+fi
+cp titan-mapr-patch/config/rexster.xml rexster-server-$REXSTERVERSION/$REXSTERCONFIGDIR
 
 #python titan-mapr-patch/bin/fix-jars.py titan-hbase-$TITANVERSION/lib
 
@@ -83,11 +88,13 @@ $DIR/make-hbase-graph.groovy for the example commands to run in the
 gremlin shell. (TODO: run this script automatically?)
 
 Once the graph is created, you can configure Rexster to run with it.
+The Rexster server distribution has been downloaded to
+$basedir/rexster-server-$REXSTERVERSION
 Rexster has been patched too, by adding a titan subfolder to the ext
 folder in the Rexster dist and adding all the Titan jars to that, and
 in the sense that the classpath has been fixed in the rexster.sh script.
 
 To start rexster, go to the rexster directory and run:
-bin/rexster.sh -s -c config/rexster.xml
+bin/rexster.sh -s -c ${REXSTERCONFIGDIR}rexster.xml
 
 EOF
