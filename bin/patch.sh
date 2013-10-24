@@ -20,16 +20,17 @@ EOF
 }
 
 TITANVERSION=0.3.2
+REXSTERVERSION=2.3.0
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $DIR
 cd ../../
 basedir=$(pwd)
 
-if [ ! -f rexster-server-2.4.0.zip ]; then
-	wget http://tinkerpop.com/downloads/rexster/rexster-server-2.4.0.zip
+if [ ! -f rexster-server-$REXSTERVERSION.zip ]; then
+	wget http://tinkerpop.com/downloads/rexster/rexster-server-$REXSTERVERSION.zip
 fi
-unzip rexster-server-2.4.0.zip
+unzip rexster-server-$REXSTERVERSION.zip
 
 # download titan-hbase
 if [ ! -f titan-hbase-$TITANVERSION.zip ]; then
@@ -40,22 +41,22 @@ unzip titan-hbase-$TITANVERSION.zip
 # copy over scripts
 cp titan-mapr-patch/bin/gremlin.sh titan-hbase-$TITANVERSION/bin/
 cp titan-mapr-patch/bin/make-classpath.py titan-hbase-$TITANVERSION/bin/
-cp titan-mapr-patch/bin/rexster.sh rexster-server-2.4.0/bin/
-cp titan-mapr-patch/bin/make-classpath.py rexster-server-2.4.0/bin/
+cp titan-mapr-patch/bin/rexster.sh rexster-server-$REXSTERVERSION/bin/
+cp titan-mapr-patch/bin/make-classpath.py rexster-server-$REXSTERVERSION/bin/
 
 # copy config
-cp titan-mapr-patch/config/rexster.xml rexster-server-2.4.0/config/
+cp titan-mapr-patch/config/rexster.xml rexster-server-$REXSTERVERSION/config/
 
 #python titan-mapr-patch/bin/fix-jars.py titan-hbase-$TITANVERSION/lib
 
-mkdir rexster-server-2.4.0/ext/titan
-cp titan-hbase-$TITANVERSION/lib/* rexster-server-2.4.0/ext/titan/
+mkdir rexster-server-$REXSTERVERSION/ext/titan
+cp titan-hbase-$TITANVERSION/lib/* rexster-server-$REXSTERVERSION/ext/titan/
 # fix metrics issue
-rm rexster-server-2.4.0/ext/titan/metrics*
+#rm rexster-server-$REXSTERVERSION/ext/titan/metrics*
 
 
 # avoid conflict with elasticsearch
-rm rexster-server-2.4.0/lib/lucene-core-*.jar
+rm rexster-server-$REXSTERVERSION/lib/lucene-core-*.jar
 
 
 
