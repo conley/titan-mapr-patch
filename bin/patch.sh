@@ -7,13 +7,13 @@ $0
 Downloads the Rexster server distribution and the Titan HBase
 distribution. 
 
-Runs fix-jars.py to replace all the jars in the lib directory
-of the Titan distribution that need replacing by MapR jars.
+Copies make-classpath.py into the Rexster and Titan bin dirs,
+as well as the patched rexster.sh and gremlin.sh, respectively.
 
 Replaces config/rexster.xml in the Rexster server distribution 
 with the one we've modified to use the Titan-HBase graph that
 you should create. Also copies all the jars over from the lib
-directory of Titan, after the MapR ones have been copied in.
+directory of Titan.
 
 EOF
     exit 1
@@ -43,10 +43,13 @@ fi
 unzip titan-hbase-0.4.0.zip
 
 # copy over scripts
-#cp titan-mapr-patch/bin/gremlin.sh titan-hbase-0.4.0/bin/
-#cp titan-mapr-patch/bin/titan.sh titan-hbase-0.3.2/bin/
-#cp titan-mapr-patch/bin/make-classpath.py titan-hbase-0.4.0/bin/
-python titan-mapr-patch/bin/fix-jars.py titan-hbase-0.4.0/lib
+cp titan-mapr-patch/bin/gremlin.sh titan-hbase-0.4.0/bin/
+cp titan-mapr-patch/bin/make-classpath.py titan-hbase-0.4.0/bin/
+cp titan-mapr-patch/bin/rexster.sh rexster-server-2.4.0/bin/
+cp titan-mapr-patch/bin/make-classpath.py rexster-server-2.4.0/bin/
+
+
+#python titan-mapr-patch/bin/fix-jars.py titan-hbase-0.4.0/lib
 
 mkdir rexster-server-2.4.0/ext/titan
 cp titan-hbase-0.4.0/lib/* rexster-server-2.4.0/ext/titan/
@@ -62,15 +65,15 @@ sed -i.bak "s|REPLACEME|$zklist|" titan-mapr-patch/config/rexster.xml
 cat <<EOF
 The titan-hbase-0.4.0 distribution has been downloaded to
 $basedir/titan-hbase-0.4.0
-and has been "patched," in the sense that the MapR-specific jars have
-been copied to the lib directory.
+and has been "patched," in the sense that the classpath has been
+fixed in the launch scripts.
 
 You have to now run gremlin.sh and create an HBase-backed graph. See
 $DIR/make-hbase-graph.groovy for an example script.
 
 Once the graph is created, you can configure Rexster to run with it.
 Rexster has been patched too, by adding a titan subfolder to the ext
-folder in the Rexster dist and adding all the (patched) Titan jars to 
-that subfolder.
+folder in the Rexster dist and adding all the Titan jars to that, and
+in the sense that the classpath has been fixed in the rexster.sh script.
 
 EOF
