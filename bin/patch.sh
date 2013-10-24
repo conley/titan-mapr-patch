@@ -50,9 +50,13 @@ cp titan-mapr-patch/config/rexster.xml rexster-server-2.4.0/config/
 
 mkdir rexster-server-2.4.0/ext/titan
 cp titan-hbase-$TITANVERSION/lib/* rexster-server-2.4.0/ext/titan/
+# fix metrics issue
+rm rexster-server-2.4.0/ext/titan/metrics*
+
 
 # avoid conflict with elasticsearch
 rm rexster-server-2.4.0/lib/lucene-core-*.jar
+
 
 
 
