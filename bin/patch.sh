@@ -35,6 +35,12 @@ if [ -d rexster-server-$REXSTERVERSION ]; then
 fi
 unzip rexster-server-$REXSTERVERSION.zip
 
+if [ ! -d rexster-console-$REXSTERVERSION ]; then
+	if [ ! -f rexster-console-$REXSTERVERSION.zip ]; then
+		wget http://tinkerpop.com/downloads/rexster/rexster-console-$REXSTERVERSION.zip
+	fi
+	unzip rexster-console-$REXSTERVERSION.zip
+fi
 # download titan-hbase
 if [ ! -f titan-hbase-$TITANVERSION.zip ]; then
 	wget http://s3.thinkaurelius.com/downloads/titan/titan-hbase-$TITANVERSION.zip
@@ -93,8 +99,12 @@ $basedir/rexster-server-$REXSTERVERSION
 Rexster has been patched too, by adding a titan subfolder to the ext
 folder in the Rexster dist and adding all the Titan jars to that, and
 in the sense that the classpath has been fixed in the rexster.sh script.
+The Rexster console distribution has also been downloaded to
+$basedir/rexster-console-$REXSTERVERSION
 
 To start rexster, go to the rexster directory and run:
-bin/rexster.sh -s -c ${REXSTERCONFIGDIR}rexster.xml
+bin/rexster.sh -s -c ${REXSTERCONFIGDIR}rexster.xml &
+Then go to the rexster console directory and run:
+bin/rexster-console.sh
 
 EOF
