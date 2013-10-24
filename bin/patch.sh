@@ -43,6 +43,8 @@ cp titan-mapr-patch/bin/make-classpath.py titan-hbase-$TITANVERSION/bin/
 cp titan-mapr-patch/bin/rexster.sh rexster-server-2.4.0/bin/
 cp titan-mapr-patch/bin/make-classpath.py rexster-server-2.4.0/bin/
 
+# copy config
+cp titan-mapr-patch/config/rexster.xml rexster-server-2.4.0/config/
 
 #python titan-mapr-patch/bin/fix-jars.py titan-hbase-$TITANVERSION/lib
 
