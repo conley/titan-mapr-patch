@@ -67,10 +67,13 @@ for i, name in enumerate(totalJarNamesOnly):
     if name in hadoopJarNamesOnly:
         replaceIndex = hadoopJarNamesOnly.index(name)
         subprocess.check_call(["cp", hadoopJars[replaceIndex], copypath])
+        subprocess.check_call(["rm", totalJars[i]])
     if name in hbaseJarNamesOnly:
         #print 'replacing ', name, ' with one from hbase'
         replaceIndex = hbaseJarNamesOnly.index(name)
         subprocess.check_call(["cp", hbaseJars[replaceIndex], copypath])
+        subprocess.check_call(["rm", totalJars[i]])
+# add all other jars from hadoop and hbase classpaths?
 for i, name in enumerate(hadoopJarNamesOnly):
     if name not in totalJarNamesOnly:
         #print 'adding ', name, ' from hadoop'
@@ -79,4 +82,3 @@ for i, name in enumerate(hbaseJarNamesOnly):
     if name not in totalJarNamesOnly:
         #print 'adding ', name, ' from hbase'
         subprocess.check_call(["cp", hbaseJars[i], copypath])
-        
