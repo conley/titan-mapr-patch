@@ -48,12 +48,13 @@ hadoopJarsAndDires = subprocess.Popen(["hadoop", "classpath"], stdout=subprocess
 #hbaseJars = subprocess.check_output(['hbase', 'classpath']).strip().split(':')
 hbaseJarsAndDires = subprocess.Popen(["hbase", "classpath"], stdout=subprocess.PIPE).communicate()[0].strip().split(':')
 
-totalJars = [ jar for jar in titanJarsAndDires if (path.isfile(jar))]
+totalJars1 = [ jar for jar in titanJarsAndDires if (path.isfile(jar))]
 #totalDires = [ dire for dire in titanJarsAndDires if path.isdir(dire) ]
 hadoopJars = [ jar for jar in hadoopJarsAndDires if path.isfile(jar) ]
 #hadoopDires = [ dire for dire in hadoopJarsAndDires if path.isdir(dire) ]
 hbaseJars = [ jar for jar in hbaseJarsAndDires if path.isfile(jar) ]
 #hbaseDires = [ dire for dire in hbaseJarsAndDires if path.isdir(dire) ]
+totalJars = [ jar for jar in totalJars1 if getNameOnly(path.split(jar)[1]) != "hadoop-core" ]
 totalJarNames = [ path.split(jar)[1] for jar in totalJars if getNameOnly(path.split(jar)[1]) != "hadoop-core" ]
 totalJarNamesOnly = [ getNameOnly(jarname) for jarname in totalJarNames ]
 hadoopJarNames = [ path.split(path.abspath(jar))[1] for jar in hadoopJars ]
