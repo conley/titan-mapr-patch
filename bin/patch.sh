@@ -31,11 +31,15 @@ cd $DIR
 cd ../../
 basedir=$(pwd)
 
-wget http://tinkerpop.com/downloads/rexster/rexster-server-2.4.0.zip
+if [ ! -f rexster-server-2.4.0.zip ]; then
+	wget http://tinkerpop.com/downloads/rexster/rexster-server-2.4.0.zip
+fi
 unzip rexster-server-2.4.0.zip
 
 # download titan-hbase
-wget http://s3.thinkaurelius.com/downloads/titan/titan-hbase-0.4.0.zip
+if [ ! -f titan-hbase-0.4.0.zip ]; then
+	wget http://s3.thinkaurelius.com/downloads/titan/titan-hbase-0.4.0.zip
+fi
 unzip titan-hbase-0.4.0.zip
 
 # copy over scripts
