@@ -3,7 +3,7 @@
 TITANVERSION=0.3.2
 FAUNUSVERSION=0.3.2
 REXSTERVERSION=2.3.0
-tablename=/user/johconle/titan
+tablename=/tmp/titan
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $DIR
