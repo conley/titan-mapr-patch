@@ -88,14 +88,14 @@
     </metrics>
     <graphs>
       <graph>
-        <graph-name>titanexample</graph-name>
+        <graph-name>DESIREDGRAPHNAME</graph-name>
         <graph-type>com.thinkaurelius.titan.tinkerpop.rexster.TitanGraphConfiguration</graph-type>
 		<graph-location></graph-location>
         <graph-read-only>false</graph-read-only>
         <properties>
               <storage.backend>hbase</storage.backend>
               <storage.hostname>REPLACEME</storage.hostname>
-			  <storage.tablename>titan</storage.tablename>
+			  <storage.tablename>DESIREDTABLENAME</storage.tablename>
         </properties>
         <extensions>
           <allows>

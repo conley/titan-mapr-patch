@@ -3,14 +3,21 @@
 TITANVERSION=0.3.2
 FAUNUSVERSION=0.3.2
 REXSTERVERSION=2.3.0
+tablename=/user/johconle/titan
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $DIR
 cd ../../
 basedir=$(pwd)
 
+# remove table if it exists
+#if [ -f /mapr$tablename ]; then
+#	rm /mapr$tablename
+#fi
+
 if [ ! -f rexster-server-$REXSTERVERSION.zip ]; then
-	wget http://tinkerpop.com/downloads/rexster/rexster-server-$REXSTERVERSION.zip
+	echo downloading rexster-server-$REXSTERVERSION.zip ...
+	wget http://tinkerpop.com/downloads/rexster/rexster-server-$REXSTERVERSION.zip &> /dev/null
 fi
 if [ -d rexster-server-$REXSTERVERSION ]; then
 	rm -r rexster-server-$REXSTERVERSION
@@ -20,7 +27,8 @@ unzip rexster-server-$REXSTERVERSION.zip &> /dev/null
 
 if [ ! -d rexster-console-$REXSTERVERSION ]; then
 	if [ ! -f rexster-console-$REXSTERVERSION.zip ]; then
-		wget http://tinkerpop.com/downloads/rexster/rexster-console-$REXSTERVERSION.zip
+		echo downloading rexster-console-$REXSTERVERSION.zip ...
+		wget http://tinkerpop.com/downloads/rexster/rexster-console-$REXSTERVERSION.zip &> /dev/null
 	fi
 	echo unzipping rexster-console-$REXSTERVERSION.zip ...
 	unzip rexster-console-$REXSTERVERSION.zip &> /dev/null
@@ -66,8 +74,11 @@ cp titan-mapr-patch/config/rexster-$REXSTERVERSION.xml rexster-server-$REXSTERVE
 # customize hostames
 zklist=$(maprcli node listzookeepers | xargs) # xargs removes trailing whitespace
 cp titan-mapr-patch/bin/make-hbase-graph.groovy titan-hbase-$TITANVERSION/bin/
-sed -i.bak "s|REPLACEME|$zklist|" titan-hbase-$TITANVERSION/bin/make-hbase-graph.groovy
-sed -i.bak "s|REPLACEME|$zklist|" rexster-server-$REXSTERVERSION/${REXSTERCONFIGDIR}rexster.xml
+sed -i.bak -e "s|REPLACEME|$zklist|" -e "s|DESIREDTABLENAME|$tablename|" titan-hbase-$TITANVERSION/bin/make-hbase-graph.groovy
+sed -i.bak -e "s|REPLACEME|$zklist|" -e "s|DESIREDTABLENAME|$tablename|" -e "s|DESIREDGRAPHNAME|$graphname|" \
+	rexster-server-$REXSTERVERSION/${REXSTERCONFIGDIR}rexster.xml
+sed -i.bak "s|localhost|$zklist|" faunus-$FAUNUSVERSION/bin/titan-hbase-input.properties
+sed -i.bak  
 
 # go ahead and create graph using gremlin?
 #echo creating titan-hbase graph...
@@ -103,9 +114,17 @@ in the sense that the classpath has been fixed in the rexster.sh script.
 The Rexster console distribution has also been downloaded to
 $basedir/rexster-console-$REXSTERVERSION
 
-To start rexster, the script goes to the rexster server directory and run:
+To start rexster, the script goes to the rexster server directory and runs:
 bin/rexster.sh -s -c ${REXSTERCONFIGDIR}rexster.xml &
-Then go to the rexster console directory and run:
+Then you can go to the rexster console directory and run:
 bin/rexster-console.sh
+
+The script also downloads and patches Faunus. To start a Faunus gremlin
+shell, go to the Faunus directory
+$basedir/faunus-$FAUNUSVERSION
+and run bin/gremlin.sh
+The titan-hbase-input.properties file has been modified appropriately, so:
+gremlin> g = FaunusFactory.open('titan-hbase-input.properties')
+will work in the shell.
 
 EOF
